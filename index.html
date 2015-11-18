@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>yeah</title>
+    </head>
+    <body>
+        <div id="container">
+            <a data-nav href="/yeah">yeah</a>
+
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+        <script>
+        (function($){
+            var app = {};
+
+            var MainView = Backbone.View.extend({
+        		el: "#container",
+                events: {
+                    'click [data-nav]': 'navigation'
+                },
+        		initialize: function() {
+        		    console.log('main init');
+        		},
+                navigation: function(ev) {
+                    ev.preventDefault();
+                    console.log(ev);
+                    app.router.navigate('yeah', {trigger: true, replace: true});
+                },
+        		render: function() {
+        			console.log('could render but will not be called');
+        		}
+        	});
+
+            app.Router = Backbone.Router.extend({
+                routes: {
+                    'yeah' : 'yeah'
+                },
+                initialize: function() {
+        			this.MainView = new MainView();
+        		},
+                yeah: function() {
+                    this.MainView.$el.html('such yeah');
+                }
+            });
+
+            app.router = new app.Router();
+
+            Backbone.history.start({
+                silent: true,
+                pushState: true
+            });
+        })(jQuery);
+        </script>
+    </body>
+</html>
